@@ -1,0 +1,16 @@
+[font]
+size = 11.0
+
+[font.normal]
+family = "monospace"
+
+[window]
+opacity = 0.85
+title = "alacritty"
+
+[window.class]
+general = "Alacritty"
+
+[window.padding]
+x = 10
+y = 10
