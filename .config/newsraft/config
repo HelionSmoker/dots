@@ -1,0 +1,5 @@
+bind f exec $EDITOR "$HOME/.config/newsraft/feeds"
+bind m exec mpv "%l"
+
+set scrolloff "3"
+set menu-feed-sorting "unread-desc"
