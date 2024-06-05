@@ -21,6 +21,6 @@ done >/dev/null 2>&1
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
 
 # Bluelight filter
-blugon --readcurrent &
+blugon -S 4700 &
 unclutter --timeout 2 &
 flameshot &
