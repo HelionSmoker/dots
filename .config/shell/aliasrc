@@ -1,61 +1,46 @@
 #!/bin/sh
 
-# Use neovim for vim if present.
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
-
-# Use $XINITRC variable if file exists.
-[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
-
-[ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
-
-# sudo not required for some system commands
-for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
-	alias $command="sudo $command"
+# Make some system commands not require sudo
+for command in mount umount pacman updatedb su shutdown reboot ; do
+	alias "$command=sudo $command"
 done; unset command
 
-se() {
-	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
-	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice"
-	;}
-
 # Verbosity and settings that you pretty much just always are going to want.
-alias \
-	cp="cp -iv" \
-	mv="mv -iv" \
-	rm="rm -vI" \
-	bc="bc -ql" \
-	rsync="rsync -vrPlu" \
-	mkd="mkdir -pv" \
-	yt="yt-dlp --embed-metadata -i" \
-	yta="yt -x -f bestaudio/best" \
-	ytt="yt --skip-download --write-thumbnail" \
-	ffmpeg="ffmpeg -hide_banner"
-
-# Colorize commands when possible.
-alias \
-	ls="ls -hN --color=auto --group-directories-first" \
-	grep="grep --color=auto" \
-	diff="diff --color=auto" \
-	ccat="highlight --out-format=ansi" \
-	ip="ip -color=auto"
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -vI'
+alias bc='bc -ql'
+alias ls='ls -A -hN --color=auto --group-directories-first'
+alias rsync='rsync -vrPlu'
+alias mkd='mkdir -pv'
+alias yt='yt-dlp --embed-metadata -i'
+alias yta='yt -x -f bestaudio/best'
+alias ffmpeg='ffmpeg -hide_banner'
 
 # These common commands are just too long! Abbreviate them.
-alias \
-	ka="killall" \
-	g="git" \
-	trem="transmission-remote" \
-	YT="youtube-viewer" \
-	sdn="shutdown -h now" \
-	e="$EDITOR" \
-	v="$EDITOR" \
-	p="pacman" \
-	xi="sudo xbps-install" \
-	xr="sudo xbps-remove -R" \
-	xq="xbps-query" \
-	z="zathura"
+alias e="$EDITOR"
+alias g='git'
+alias o='xdg-open'
+alias y='yay'
+alias t='task'
+alias z='zathura'
+alias ka='killall'
+alias lf='lfub'
+alias py='python'
+alias tp='trash-put'
 
-alias \
-	lf="lfub" \
-	magit="nvim -c MagitOnly" \
-	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
-	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
+# Colorize commands when possible.
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip -color=auto'
+
+# Custom aliases
+alias mci='sudo make clean install'
+alias tse='tsc --target es6'
+alias gtro='trans -pager less -t ro -join-sentence'
+alias gten='trans -pager less -t en -join-sentence'
+alias ytt='yt --skip-download --write-thumbnail'
+alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
+alias ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
+alias jrd="cd "$HOME/Documents/journal/$(date '+%Y')" && ls -A"
+alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
