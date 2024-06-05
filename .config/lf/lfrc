@@ -1,6 +1,3 @@
-# Luke's lf settings
-
-
 # Note on Image Previews
 # For those wanting image previews, like this system, there are four steps to
 # set it up. These are done automatically for LARBS users, but I will state
@@ -21,16 +18,25 @@ set ifs "\n"
 set scrolloff 10
 set icons
 set period 1
-set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
+# set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
+set hidden true
 set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/scope'
 set autoquit true
+
+# Set borders around the columns
+set drawbox
+
+set cursorpreviewfmt "\033[7m"
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
 
 # cmds/functions
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in
 	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) localc $fx ;;
-	image/vnd.djvu|application/pdf|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
+	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
+	application/x-sc) sc-im $fx ;;
         text/*|application/json|inode/x-empty|application/x-subrip) $EDITOR $fx;;
 	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
 	image/svg+xml) display -- $f ;;
@@ -45,18 +51,10 @@ cmd open ${{
 	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
 	application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
 	application/pgp-encrypted) $EDITOR $fx ;;
-	application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.oasis.opendocument.text|application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.oasis.opendocument.spreadsheet|application/vnd.oasis.opendocument.spreadsheet-template|application/vnd.openxmlformats-officedocument.presentationml.presentation|application/vnd.oasis.opendocument.presentation-template|application/vnd.oasis.opendocument.presentation|application/vnd.ms-powerpoint|application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template|application/vnd.oasis.opendocument.formula|application/vnd.oasis.opendocument.database) setsid -f libreoffice $fx >/dev/null 2>&1 ;;
-        application/octet-stream) case ${f##*.} in
-			doc|docx|xls|xlsx|odt|ppt|pptx) setsid -f libreoffice $fx >/dev/null 2>&1 ;;
-			ghw) setsid -f gtkwave $f >/dev/null 2>&1 ;;
-			ts) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-			*) setsid -f zathura $fx >/dev/null 2>&1 ;;
-	   	esac ;;
-	*) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.oasis.opendocument.text|application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/octet-stream|application/vnd.oasis.opendocument.spreadsheet|application/vnd.oasis.opendocument.spreadsheet-template|application/vnd.openxmlformats-officedocument.presentationml.presentation|application/vnd.oasis.opendocument.presentation-template|application/vnd.oasis.opendocument.presentation|application/vnd.ms-powerpoint|application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template|application/vnd.oasis.opendocument.formula|application/vnd.oasis.opendocument.database) setsid -f libreoffice $fx >/dev/null 2>&1 ;;
+        *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
     esac
 }}
-
-cmd mkdir $mkdir -p "$@"
 
 cmd extract ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
@@ -64,29 +62,28 @@ cmd extract ${{
 	printf "%s\n\t" "$fx"
 	printf "extract?[y/N]"
 	read ans
-	[ $ans = "y" ] && {
-		case $fx in
-			*.tar.bz2)   tar xjf $fx     ;;
-			*.tar.gz)    tar xzf $fx     ;;
-			*.bz2)       bunzip2 $fx     ;;
-			*.rar)       unrar e $fx     ;;
-			*.gz)        gunzip $fx      ;;
-			*.tar)       tar xf $fx      ;;
-			*.tbz2)      tar xjf $fx     ;;
-			*.tgz)       tar xzf $fx     ;;
-			*.zip)       unzip $fx       ;;
-			*.Z)         uncompress $fx  ;;
-			*.7z)        7z x $fx        ;;
-			*.tar.xz)    tar xf $fx      ;;
-		esac
-	}
+	[ $ans = "y" ] && aunpack $fx
+}}
+
+cmd trash ${{
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "Move to trash? [Y/n]"
+	read ans
+
+	# Wrapping '$fx' in quotes doesn't work
+	# Check if $ans is empty, equal to "y", or equal to "Y"
+	if [ -z "$ans" ] || [ "$ans" = "y" ] || [ "$ans" = "Y" ]; then
+	    trash -- $fx
+	fi
 }}
 
 cmd delete ${{
 	clear; tput cup $(($(tput lines)/3)); tput bold
 	set -f
 	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
+	printf "Delete? [y/N]"
 	read ans
 	[ $ans = "y" ] && rm -rf -- $fx
 }}
@@ -113,69 +110,92 @@ cmd copyto ${{
 	notify-send "📋 File(s) copied." "File(s) copies to $dest."
 }}
 
+cmd restore ${{
+	trash-restore
+}}
+
 cmd setbg "$1"
 
-cmd bulkrename ${{
-    tmpfile_old="$(mktemp)"
-    tmpfile_new="$(mktemp)"
-
-    [ -n "$fs" ] && fs=$(basename -a $fs) || fs=$(ls)
-
-    echo "$fs" > "$tmpfile_old"
-    echo "$fs" > "$tmpfile_new"
-    $EDITOR "$tmpfile_new"
-
-    [ "$(wc -l < "$tmpfile_old")" -eq "$(wc -l < "$tmpfile_new")" ] || { rm -f "$tmpfile_old" "$tmpfile_new"; exit 1; }
-
-    paste "$tmpfile_old" "$tmpfile_new" | while IFS="$(printf '\t')" read -r src dst
-    do
-        [ "$src" = "$dst" ] || [ -e "$dst" ] || mv -- "$src" "$dst"
-    done
-
-    rm -f "$tmpfile_old" "$tmpfile_new"
-    lf -remote "send $id unselect"
+cmd edit-config ${{
+    $EDITOR ~/.config/lf/lfrc
+    lf -remote "send $id source ~/.config/lf/lfrc"
 }}
+
+map <c-c> edit-config
+
+map <a-n> newfold
+
+cmd newfold ${{
+    set -f
+    printf "Directory name: "
+    read newd
+    mkdir -- "$newd"
+    mv -- $fx "$newd"
+}}
+
+cmd select-files &{{
+    get_files() {
+        if [ "$lf_hidden" = 'false' ]; then
+            find "$PWD" -mindepth 1 -maxdepth 1 -not -name '.*' -print0
+        else
+            find "$PWD" -mindepth 1 -maxdepth 1 -print0
+        fi |
+        xargs -0 printf ' %q'
+    }
+
+    lf -remote "send $id :unselect; toggle $(get_files)"
+}}
+
+
+# Bind the 'a' key to the select-all command
+map a select-files
+
+map <esc> unselect
 
 # Bindings
 map <c-f> $lf -remote "send $id select \"$(fzf)\""
-map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
-map H cd ~
+# map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
+map gh
 map g top
+map d trash
 map D delete
 map E extract
 map C copyto
 map M moveto
-map <c-n> push :mkdir<space>""<left>
+map V push :!nvim<space>
+map <c-n> push :mkdir<space>
 map <c-r> reload
 map <c-s> set hidden!
-map <enter> shell
+# map <enter> shell
+map <enter> open
 map x $$f
 map X !$f
-map o &mimeopen "$f"
-map O $mimeopen --ask "$f"
-
-map A :rename; cmd-end # at the very end
-map c push A<c-u> # new rename
-map I :rename; cmd-home # at the very beginning
-map i :rename # before extension
-map a :rename; cmd-right # after extension
-map B bulkrename
+map c cut
+map u restore
 map b $setbg $f
 
-map <c-e> down
-map <c-y> up
-map V push :!nvim<space>
-
 map W $setsid -f $TERMINAL >/dev/null 2>&1
+map Y $printf "%s" "$fx" | xclip -selection clipboard
 
-map U $printf "%s" "$fx" | xclip -selection clipboard
-map u $printf "%s" "$fx" | sed 's/.*\///' | xclip -selection clipboard
-map . $printf "%s" "$fx" | sed -E 's/^.+\[/https:\/\/www.youtube.com\/watch?v=/' | sed -E 's/\]\..+//' | xclip -selection clipboard
-map <gt> $printf "%s" "$fx" | sed -E 's/^.+\[/https:\/\/piped.video\/watch?v=/' | sed -E 's/\]\..+//' | xclip -selection clipboard
-map T $sxiv -t "$(pwd)" # opens thumbnail mode
-map <c-l> unselect
+# RENAMING
+cmd bulkrename $vidir
 
-
+# Unmap default rename key
+map r
+# Place cursor before extension
+map R 		rename
+# [R]ename [r]oot. Delete everything before extension. Place cursor at the beginning
+map rr 		:rename; cmd-delete-home
+# [R]ename [e]xtension.
+map re		:rename; cmd-right; cmd-delete-end
+# [R]ename [a]ll. Delete full name.
+map rf		:rename; cmd-end; cmd-delete-home
+# [R]ename by [i]nserting at the beginning.
+map rb		:rename; cmd-home
+# [R]ename by [a]ppending.
+map re		:rename; cmd-end
+# [R]ename in [b]ulk all files in current directory using $EDITOR.
+map ra 		bulkrename
 
 # Source Bookmarks
 source "~/.config/lf/shortcutrc"
