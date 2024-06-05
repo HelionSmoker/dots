@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # A dmenu wrapper script for system functions.
+
 export WM="dwm"
 case "$(readlink -f /sbin/init)" in
 	*systemd*) ctl='systemctl' ;;
@@ -13,14 +14,51 @@ wmpid(){ # This function is needed if there are multiple instances of the window
 	echo "${tree%%)*}"
 }
 
-case "$(printf "🔒 lock\n🚪 leave $WM\n♻️ renew $WM\n🐻 hibernate\n🔃 reboot\n🖥️shutdown\n💤 sleep\n📺 display off" | dmenu -i -p 'Action: ')" in
-	'🔒 lock') slock ;;
-	"🚪 leave $WM") kill -TERM "$(wmpid)" ;;
-	"♻️ renew $WM") kill -HUP "$(wmpid)" ;;
-	'🐻 hibernate') slock $ctl hibernate -i ;;
-	'💤 sleep') slock $ctl suspend -i ;;
-	'🔃 reboot') $ctl reboot -i ;;
-	'🖥️shutdown') $ctl poweroff -i ;;
-	'📺 display off') xset dpms force off ;;
+wait_display () {
+	while [[ "$(xset q | tail -1)" != "  Monitor is On" ]]; do
+    	sleep 15
+	done
+}
+
+pause_dunst(){
+	# https://wiki.archlinux.org/title/Dunst
+	dunstctl set-paused true
+	time1=$(date '+%s')
+
+	eval "$1"
+	wait_display
+
+	dunstctl set-paused false
+	time2=$(date '+%s')
+
+	# Calculate the time difference
+	delta=$((time2 - time1))
+	fmt_delta="$(date -u -d @${delta} '+%Hh %Mm %Ss')"
+
+	notify-send --urgency low "Welcome back!" "You've been gone for $fmt_delta."
+}
+
+choices="\
+sleep 😴
+lock 🔒
+exit $WM 🚪
+reboot 🔄
+power off 🔌
+update $WM 
+hibernate 🐻
+display off 📺
+"
+
+choice="$(printf "$choices" | dmenu -i -p "Action")"
+
+case "$choice" in
+	'sleep 😴') pause_dunst "slock $ctl suspend -i" ;;
+	"update $WM ") echo "wmpid: $(wmpid)"; kill -HUP "$(wmpid)" ;;
+	'lock 🔒') pause_dunst 'slock' ;;
+	"exit $WM 🚪") kill -TERM "$(wmpid)" ;;
+	'power off 🔌') $ctl poweroff -i ;;
+	'reboot 🔄') $ctl reboot -i ;;
+	'display off 📺') xset dpms force off ;;
+	'hibernate 🐻') pause_dunst "slock $ctl hibernate -i" ;;
 	*) exit 1 ;;
 esac

@@ -1,20 +1,48 @@
 #!/bin/sh
 
-# Originally by Andr3as07 <https://github.com/Andr3as07>
-# Some changes by Luke
-# Rebuild by Tenyun
+STATE_DIR="${HOME}/.local/state/taskwarrior"
+STATE_FILE="${STATE_DIR}/overdue_tasks"
 
-# This block displays the number running background tasks.  Requires tsp.
+# Create state directory if it doesn't exist
+mkdir -p "$STATE_DIR"
 
-num=$(tsp -l | awk -v numr=0 -v numq=0 '{if (/running/)numr++; if (/queued/)numq++} END{print numr+numq"("numq")"}')
+# Notify user if more tasks have become overdue
+notify_user() {
+	new_overdue=$1
+	old_overdue=$2
+	difference=$(( new_overdue - old_overdue ))
 
-# Handle mouse clicks
-case $BLOCK_BUTTON in
-	1) setsid -f "$TERMINAL" -e tsp -l ;;
-	3) notify-send "Tasks module" "🤖: number of running/queued background tasks
-- Left click opens tsp" ;; # Right click
-	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+	if [ "$difference" -gt 0 ]; then
+		notify-send "Taskwarrior Alert" "$difference task(s) become overdue."
+	fi
+}
+
+# Read previous overdue tasks count
+if [ -f "$STATE_FILE" ]; then
+	old_overdue=$(cat "$STATE_FILE")
+else
+	old_overdue=0
+fi
+
+# Get current task counts
+pending_tasks=$(task +PENDING count)
+overdue_tasks=$(task +OVERDUE count)
+due_tasks=$(( pending_tasks - overdue_tasks ))
+
+echo "$overdue_tasks" > "$STATE_FILE"
+
+notify_user "$overdue_tasks" "$old_overdue"
+
+# Handle button clicks
+case "$BLOCK_BUTTON" in
+	1) setsid -f "$TERMINAL" -e taskwarrior-tui ;;
+	3) notify-send " Due and overdue tasks" "\- Left click to open 'taskwarrior-tui'" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-[ "$num" != "0(0)" ] &&
-	echo "🤖$num"
+# Output task information
+if [ "$overdue_tasks" -ne 0 ]; then
+	printf "%s %s\n" "$due_tasks" "$overdue_tasks"
+else
+	printf "%s\n" "$due_tasks"
+fi

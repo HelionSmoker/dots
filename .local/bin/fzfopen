@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Open a specific file or directory
+
+target_path="$(fzf)"
+
+[ -z "$target_path" ] && exit 1
+
+lf "$target_path"
