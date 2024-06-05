@@ -9,5 +9,6 @@ dt  "${XDG_DATA_HOME:-$HOME/.local/share}"
 mn  "/mnt"
 m   "$HOME/Music"
 pp  "$HOME/Pictures"
+V	"$HOME/Videos"
 lb  "$HOME"/.local/bin
 src "$HOME"/.local/src
