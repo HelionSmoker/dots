@@ -71,12 +71,8 @@ function jr() {
 	$EDITOR "$(date '+%m.%d').md"
 }
 
-function yank {
-    /usr/bin/yank $@ -- xsel --clipboard
-}
-
-# Run a command on every 'Enter' (e.g. `run cargo run`)
-function run {
+# Run a command on every 'Enter' (e.g. `run_loop cargo run`)
+function run_loop {
     local cmd="$@"
     while true; do
         eval "$cmd" ; read
