@@ -34,5 +34,10 @@
     "editor.lineNumbers": "relative",
     "diffEditor.hideUnchangedRegions.enabled": true,
     "editor.wordWrap": "bounded",
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "git.branchProtection": [
+        "arch-main",
+        "mac-main",
+        "main"
+    ]
 }
