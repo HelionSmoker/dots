@@ -306,13 +306,13 @@
       "id": "eamodio.gitlens",
       "uuid": "4de763bd-505d-4978-9575-2b7696ecf94e"
     },
-    "version": "15.0.4",
+    "version": "15.1.0",
     "location": {
       "$mid": 1,
-      "path": "/home/link/.vscode-oss/extensions/eamodio.gitlens-15.0.4-universal",
+      "path": "/home/link/.vscode-oss/extensions/eamodio.gitlens-15.1.0-universal",
       "scheme": "file"
     },
-    "relativeLocation": "eamodio.gitlens-15.0.4-universal",
+    "relativeLocation": "eamodio.gitlens-15.1.0-universal",
     "metadata": {
       "id": "4de763bd-505d-4978-9575-2b7696ecf94e",
       "publisherId": "678d198b-9b2e-49d3-96ff-6d801c9575df",
@@ -322,9 +322,10 @@
       "updated": true,
       "isPreReleaseVersion": false,
       "hasPreReleaseVersion": false,
-      "installedTimestamp": 1716360950249,
+      "installedTimestamp": 1718043069743,
       "pinned": false,
-      "preRelease": false
+      "preRelease": false,
+      "source": "gallery"
     }
   },
   {
@@ -355,59 +356,59 @@
     }
   },
   {
-    "identifier": {
+	  "identifier": {
       "id": "rust-lang.rust-analyzer",
       "uuid": "06574cb4-e5dc-4631-8174-a543a4533621"
     },
-    "version": "0.3.1983",
+    "version": "0.3.1995",
     "location": {
       "$mid": 1,
-      "path": "/home/link/.vscode-oss/extensions/rust-lang.rust-analyzer-0.3.1983-linux-x64",
+      "fsPath": "/home/link/.vscode-oss/extensions/rust-lang.rust-analyzer-0.3.1995-linux-x64",
+      "external": "file:///home/link/.vscode-oss/extensions/rust-lang.rust-analyzer-0.3.1995-linux-x64",
+      "path": "/home/link/.vscode-oss/extensions/rust-lang.rust-analyzer-0.3.1995-linux-x64",
       "scheme": "file"
     },
-    "relativeLocation": "rust-lang.rust-analyzer-0.3.1983-linux-x64",
+    "relativeLocation": "rust-lang.rust-analyzer-0.3.1995-linux-x64",
     "metadata": {
-      "id": "06574cb4-e5dc-4631-8174-a543a4533621",
-      "publisherId": "cb14a7a7-a188-40bd-a953-e0a20757c5dd",
+		"id": "06574cb4-e5dc-4631-8174-a543a4533621",
+		"publisherId": "cb14a7a7-a188-40bd-a953-e0a20757c5dd",
       "publisherDisplayName": "rust-lang",
       "targetPlatform": "linux-x64",
       "isApplicationScoped": false,
       "updated": true,
       "isPreReleaseVersion": false,
       "hasPreReleaseVersion": false,
-      "installedTimestamp": 1717394681818,
+      "installedTimestamp": 1718105342390,
       "pinned": false,
       "preRelease": false,
       "source": "gallery"
     }
   },
   {
-    "identifier": {
-      "id": "asvetliakov.vscode-neovim",
-      "uuid": "caf8995c-5426-4bf7-9d01-f7968ebd49bb"
-    },
-    "version": "1.15.0",
-    "location": {
-      "$mid": 1,
-      "fsPath": "/home/link/.vscode-oss/extensions/asvetliakov.vscode-neovim-1.15.0-universal",
-      "external": "file:///home/link/.vscode-oss/extensions/asvetliakov.vscode-neovim-1.15.0-universal",
-      "path": "/home/link/.vscode-oss/extensions/asvetliakov.vscode-neovim-1.15.0-universal",
-      "scheme": "file"
-    },
-    "relativeLocation": "asvetliakov.vscode-neovim-1.15.0-universal",
-    "metadata": {
-      "id": "caf8995c-5426-4bf7-9d01-f7968ebd49bb",
-      "publisherId": "ce6190db-6762-4c9c-99c7-1717b9504159",
-      "publisherDisplayName": "asvetliakov",
-      "targetPlatform": "universal",
-      "isApplicationScoped": false,
-      "updated": true,
-      "isPreReleaseVersion": false,
-      "hasPreReleaseVersion": false,
-      "installedTimestamp": 1717476456000,
-      "pinned": false,
-      "preRelease": false,
-      "source": "gallery"
-    }
+	"identifier": {
+	  "id": "asvetliakov.vscode-neovim",
+	  "uuid": "caf8995c-5426-4bf7-9d01-f7968ebd49bb"
+	},
+	"version": "1.16.0",
+	"location": {
+	  "$mid": 1,
+	  "path": "/home/link/.vscode-oss/extensions/asvetliakov.vscode-neovim-1.16.0-universal",
+	  "scheme": "file"
+	},
+	"relativeLocation": "asvetliakov.vscode-neovim-1.16.0-universal",
+	"metadata": {
+	  "id": "caf8995c-5426-4bf7-9d01-f7968ebd49bb",
+	  "publisherId": "ce6190db-6762-4c9c-99c7-1717b9504159",
+	  "publisherDisplayName": "asvetliakov",
+	  "targetPlatform": "universal",
+	  "isApplicationScoped": false,
+	  "updated": true,
+	  "isPreReleaseVersion": false,
+	  "hasPreReleaseVersion": false,
+	  "installedTimestamp": 1718043069502,
+	  "pinned": false,
+	  "preRelease": false,
+	  "source": "gallery"
+	}
   }
 ]
