@@ -44,3 +44,4 @@ alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,wri
 alias ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
 alias jrd="cd "$HOME/Documents/journal/$(date '+%Y')" && ls -A"
 alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+alias jsonfmt='prettier --stdin-filepath f.json'
