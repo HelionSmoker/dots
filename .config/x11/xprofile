@@ -4,7 +4,7 @@
 # If you use startx/xinit like a Chad, this file will also be sourced.
 
 # Use a higher DPI for larger screens
-xrandr --dpi 90
+xrandr --output DisplayPort-2 --primary --mode 2560x1440 --rotate normal --dpi 110
 # Set the background with the `setbg` script
 setbg &
 dwmblocks &
