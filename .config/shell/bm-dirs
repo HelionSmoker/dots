@@ -1,14 +1,15 @@
-# You can add comments to these files with #
-cac "${XDG_CACHE_HOME:-$HOME/.cache}"
-cf  "${XDG_CONFIG_HOME:-$HOME/.config}"
-d   "$HOME/Documents"
-D   "$HOME/Downloads"
-dev "$HOME/dev"
-h   "$HOME"
-dt  "${XDG_DATA_HOME:-$HOME/.local/share}"
-mn  "/mnt"
-m   "$HOME/Music"
-pp  "$HOME/Pictures"
-V	"$HOME/Videos"
-lb  "$HOME"/.local/bin
-src "$HOME"/.local/src
+# You can add comments to these files with '#'
+cac 	"${XDG_CACHE_HOME:-$HOME/.cache}"
+cf  	"${XDG_CONFIG_HOME:-$HOME/.config}"
+d   	"$HOME/Documents"
+D   	"$HOME/Downloads"
+dev 	"$HOME/dev"
+h   	"$HOME"
+dt  	"${XDG_DATA_HOME:-$HOME/.local/share}"
+mn  	"/mnt"
+m   	"$HOME/Music"
+pp  	"$HOME/Pictures"
+V		"$HOME/Videos"
+lb  	"$HOME"/.local/bin
+src 	"$HOME"/.local/src
+dots	"$HOME/dots"
