@@ -1,15 +1,16 @@
-# You can add comments to these files with '#'
+# Use '#' to add comments.
+
+h   	"$HOME"
+d   	"$HOME/Documents"
+jd		"$HOME/Documents/journal"
+D   	"$HOME/Downloads"
+m   	"$HOME/Music"
+P	  	"$HOME/Pictures"
+V		"$HOME/Videos"
 cac 	"${XDG_CACHE_HOME:-$HOME/.cache}"
 cf  	"${XDG_CONFIG_HOME:-$HOME/.config}"
-d   	"$HOME/Documents"
-D   	"$HOME/Downloads"
-dev 	"$HOME/dev"
-h   	"$HOME"
 dt  	"${XDG_DATA_HOME:-$HOME/.local/share}"
-mn  	"/mnt"
-m   	"$HOME/Music"
-pp  	"$HOME/Pictures"
-V		"$HOME/Videos"
-lb  	"$HOME"/.local/bin
-src 	"$HOME"/.local/src
+lb  	"$HOME/.local/bin"
+src 	"$HOME/.local/src"
 dots	"$HOME/dots"
+mn  	"/mnt"
