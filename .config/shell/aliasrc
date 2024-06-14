@@ -1,11 +1,25 @@
 #!/bin/sh
 
-# Make some system commands not require sudo
+# Make some system commands not require sudo.
 for command in mount umount pacman updatedb su shutdown reboot ; do
 	alias "$command=sudo $command"
 done; unset command
 
-# Verbosity and settings that you pretty much just always are going to want.
+# Abbreviations
+
+## (SC2139) Expand when used, not when defined.
+alias e='$EDITOR'
+alias g='git'
+alias o='xdg-open'
+alias y='yay'
+alias t='task'
+alias z='zathura'
+alias ka='killall'
+alias lf='lfub'
+alias py='python'
+alias tp='trash-put'
+
+# Verbosity and commonly-used settings.
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias rm='rm -vI'
@@ -17,31 +31,19 @@ alias yt='yt-dlp --embed-metadata -i'
 alias yta='yt -x -f bestaudio/best'
 alias ffmpeg='ffmpeg -hide_banner'
 
-# These common commands are just too long! Abbreviate them.
-alias e="$EDITOR"
-alias g='git'
-alias o='xdg-open'
-alias y='yay'
-alias t='task'
-alias z='zathura'
-alias ka='killall'
-alias lf='lfub'
-alias py='python'
-alias tp='trash-put'
-
-# Colorize commands when possible.
+# Use colored output
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip -color=auto'
 
-# Custom aliases
-alias mci='sudo make clean install'
-alias tse='tsc --target es6'
+# General-purpose
 alias gtro='trans -pager less -t ro -join-sentence'
 alias gten='trans -pager less -t en -join-sentence'
 alias ytt='yt --skip-download --write-thumbnail'
 alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
-alias ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
-alias jrd="cd "$HOME/Documents/journal/$(date '+%Y')" && ls -A"
-alias config="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+
+# Dev-oriented
+alias mci='sudo make clean install'
+alias tse='tsc --target es6'
 alias jsonfmt='prettier --stdin-filepath f.json'
+alias alistp='adb shell cmd package list packages'
