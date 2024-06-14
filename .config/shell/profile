@@ -42,7 +42,7 @@ export _JAVA_AWT_WM_NONREPARENTING='1' # Fix for Java applications in dwm
 export MOZ_USE_XINPUT2='1' # Mozilla smooth scrolling/touchpads.
 
 # === Android Studio ===
-export ANDROID_HOME="$XDG_CACHE_HOME/Android/Sdk"
+export ANDROID_HOME="$XDG_DATA_HOME/SDKs"
 export ANDROID_AVD_HOME="$XDG_CONFIG_HOME/.android/avd"
 
 # === Appium ===
