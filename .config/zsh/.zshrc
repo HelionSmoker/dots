@@ -66,9 +66,16 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 # Open latest entry in my journal.
-function jr() {
+function j() {
 	cd "$HOME/Documents/journal/$(date '+%Y')"
 	$EDITOR "$(date '+%m.%d').md"
+}
+
+function src-short() {
+	shortcuts >/dev/null;
+	source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc;
+	source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc;
+	echo "Sourced shell shortcuts.";
 }
 
 # Run a command on every 'Enter' (e.g. `run_loop cargo run`)
