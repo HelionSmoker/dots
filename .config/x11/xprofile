@@ -9,7 +9,7 @@ xrandr --output DisplayPort-2 --primary --mode 2560x1440 --rotate normal --dpi 1
 setbg &
 dwmblocks &
 # Uncomment to use Xresources colors/settings on startup
-# xrdb "${XDG_CONFIG_HOME:-$HOME/.config}"/x11/xresources & xrdbpid=$!
+xrdb "${XDG_CONFIG_HOME:-$HOME/.config}"/x11/xresources & xrdbpid=$!
 
 autostart='xcompmgr dunst pipewire remapd'
 
@@ -17,10 +17,10 @@ for program in $autostart; do
 	pidof -sx "$program" || "$program" &
 done >/dev/null 2>&1
 
-# Ensure that xrdb has finished running before moving on to start the WM/DE.
-[ -n "$xrdbpid" ] && wait "$xrdbpid"
-
 # Bluelight filter
 blugon -S 4700 &
 unclutter --timeout 2 &
 flameshot &
+
+# Ensure that xrdb has finished running before moving on to start the WM/DE.
+[ -n "$xrdbpid" ] && wait "$xrdbpid"
