@@ -39,5 +39,6 @@
         "arch-main",
         "mac-main",
         "main"
-    ]
+    ],
+    "glassit.alpha": 250
 }
