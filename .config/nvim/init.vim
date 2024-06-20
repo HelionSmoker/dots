@@ -37,6 +37,7 @@ set noshowmode
 set noruler
 set laststatus=0
 set noshowcmd
+set ignorecase smartcase
 
 set tabstop=4
 set shiftwidth=4
