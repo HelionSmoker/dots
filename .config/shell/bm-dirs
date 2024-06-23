@@ -2,7 +2,7 @@
 
 h   	"$HOME"
 d   	"$HOME/Documents"
-jd		"$HOME/Documents/journal"
+jr		"$HOME/Documents/Journal"
 D   	"$HOME/Downloads"
 m   	"$HOME/Music"
 P	  	"$HOME/Pictures"

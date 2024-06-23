@@ -65,10 +65,25 @@ zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-# Open latest entry in my journal.
-function j() {
-	cd "$HOME/Documents/journal/$(date '+%Y')"
-	$EDITOR "$(date '+%m.%d').md"
+# Open a journal entry based on the provided argument. A negative
+# value (-1) means a past date and a positive value (+1) means a
+# future date. No arguments means the current date.
+function je() {
+	jr 					# Open the journal root directory
+	cd "$(date +'%Y')" 	# Open the current year directory
+
+	local date_fmt="%m.%d"
+	local date
+
+	if [[ -z "$1" ]]; then
+		# For some reason, '-d " days"' (missing value) defaults to tomorrow,
+		# so we need an explicit check for no arguments.
+		date=$(date +"$date_fmt")
+	else
+		date=$(date -d "$1 days" +"$date_fmt")
+	fi
+
+    $EDITOR "$date.md"
 }
 
 function src-short() {
