@@ -7,8 +7,7 @@ done; unset command
 
 # Abbreviations
 
-## (SC2139) Expand when used, not when defined.
-alias e='$EDITOR'
+alias e='$EDITOR' ## (SC2139) Expand when used, not when defined.
 alias g='git'
 alias o='xdg-open'
 alias y='yay'
