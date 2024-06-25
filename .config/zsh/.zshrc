@@ -97,11 +97,16 @@ function src-short() {
 
 # Run a command on every 'Enter' (e.g. `run_loop cargo run`)
 function run_loop {
-	local  cmd="$@"
-	while  true; do
+	local cmd="$@"
+	while true; do
 		eval "$cmd"
 		read
 	done
+}
+
+function avds() {
+	local avd="$(emulator -list-avds | grep -v "^INFO" | dmenu -i -l -1 -p "Select emulator")"
+	emulator -avd "$avd"
 }
 
 bindkey -s '^f' 'fzfopen\n'
