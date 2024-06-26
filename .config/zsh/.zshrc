@@ -15,6 +15,7 @@ setopt interactive_comments
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+setopt appendhistory
 
 # Load aliases and shortcuts if existent.
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc"
@@ -116,6 +117,9 @@ function avds() {
 }
 
 bindkey -s '^f' 'fzfopen\n'
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2> /dev/null

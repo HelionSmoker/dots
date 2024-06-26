@@ -34,8 +34,8 @@ export LESSHISTFILE="/dev/null"
 export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export LESS=-R
-export FZF_DEFAULT_COMMAND='fd . --hidden -E .cache -E .config/BraveSoftware -E .local/lib/ -E .local/share/cargo -E .local/share/Trash -E .local/share/rustup -E .vscode-oss -E .config/nvim'
-export FZF_DEFAULT_OPTS='--height 80% --preview "bat --color=always --style=numbers --line-range=:50 {} 2> /dev/null || ls --color=always {}"'
+export FZF_DEFAULT_COMMAND='fd . --hidden -E .cache -E .local/lib/ -E .local/share/cargo -E .local/share/Trash -E .local/share/rustup -E .vscode-oss -E .config/nvim'
+export FZF_DEFAULT_OPTS='--height 80%'
 export BAT_THEME='gruvbox-dark'
 export PASTEL_COLOR_MODE='24bit'
 export _JAVA_AWT_WM_NONREPARENTING='1' # Fix for Java applications in dwm
