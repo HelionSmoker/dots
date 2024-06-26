@@ -68,24 +68,30 @@ echo -ne '\e[5 q'                # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q'; } # Use beam shape cursor for each new prompt.
 
 # Open a journal entry based on the provided argument. A negative
-# value (-1) means a past date and a positive value (+1) means a
-# future date. No arguments means the current date.
+# value (-1) means a past date and a positive value (1) means a
+# future date. You can open a specific date by passing it in the format "MM.DD.YYYY".
+# No arguments means the current date.
 function je() {
-	jr                 # Open the journal root directory
-	cd "$(date +'%Y')" # Open the current year directory
+    jr # Open the journal root directory
+    local date_input="$1"
+    local date_fmt="%m.%d.%Y"
+    local date
 
-	local date_fmt="%m.%d"
-	local date
+    if [[ -z "$date_input" ]]; then
+        # Handle no arguments: use current date
+        date=$(date +"$date_fmt")
+    elif [[ "$date_input" =~ ^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$ ]]; then
+        # Handle specific date input (format: MM.DD.YYYY)
+        date="$date_input"
+    else
+        # Handle relative dates (like -1 or 1)
+        date=$(date -d "$date_input days" +"$date_fmt")
+    fi
 
-	if [[ -z "$1" ]]; then
-		# For some reason, '-d " days"' (missing value) defaults to tomorrow,
-		# so we need an explicit check for no arguments.
-		date=$(date +"$date_fmt")
-	else
-		date=$(date -d "$1 days" +"$date_fmt")
-	fi
+    local year="${date:6:4}"
+    cd "$year"
 
-	$EDITOR "$date.md"
+    $EDITOR "${date:0:5}.md"  # Open the file in the format MM.DD.md
 }
 
 function src-short() {
