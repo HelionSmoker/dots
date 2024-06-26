@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "window.menuBarVisibility": "toggle",
   "[html]": {
@@ -34,7 +34,7 @@
   "editor.wordWrap": "bounded",
   "explorer.confirmDelete": false,
   "git.branchProtection": ["arch-main", "mac-main", "main"],
-  "glassit.alpha": 250,
+  "glassit.alpha": 235,
   "[python]": {
     "editor.defaultFormatter": "mikoz.black-py"
   }
