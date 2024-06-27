@@ -111,11 +111,6 @@ function run_loop {
 	done
 }
 
-function avds() {
-	local avd="$(emulator -list-avds | grep -v "^INFO" | dmenu -i -l -1 -p "Select emulator")"
-	emulator -avd "$avd"
-}
-
 bindkey -s '^f' 'fzfopen\n'
 
 # Set up fzf key bindings and fuzzy completion
