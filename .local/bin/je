@@ -1,0 +1,105 @@
+#!/bin/python3
+
+from datetime import datetime, timedelta
+import subprocess
+import argparse
+import sys
+import os
+
+ABS_DATE_FMTS = ["%Y.%m.%d", "%m.%d"]
+
+
+def format_help_choices(choices):
+    return " | ".join([f"'{str(choice).replace("%", "%%")}'" for choice in choices])
+
+
+def abs_date(date: str, date_fmts: list[str] = ABS_DATE_FMTS):
+    for fmt in date_fmts:
+        try:
+            parsed_date = datetime.strptime(date, fmt)
+            if '%Y' not in fmt and '%y' not in fmt:
+                parsed_date = parsed_date.replace(year=datetime.now().year)
+
+            return parsed_date
+        except ValueError:
+            continue  # Try the next format
+
+    raise ValueError("Invalid date format")
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Opens a journal entry based on a specified absolute or relative date. "
+        "If no date is specified, the script defaults to the current date."
+    )
+    parser.add_argument(
+        "absolute_date",
+        nargs="?",
+        type=abs_date,
+        metavar="ABS_DATE",
+        help=f"Absolute date. Format: {format_help_choices(ABS_DATE_FMTS)}.",
+    )
+    parser.add_argument(
+        "-r",
+        "--relative-date",
+        type=int,
+        metavar="REL_DATE",
+        help=f"Relative date. Format: {format_help_choices(['-int', 'int', '+int'])}.",
+    )
+
+    return parser.parse_args()
+
+
+def determine_date(args):
+    if args.absolute_date is not None:
+        return args.absolute_date
+
+    current_time = datetime.now()
+    if args.relative_date:
+        return current_time + timedelta(days=args.relative_date)
+
+    return current_time
+
+
+def parse_date_obj(date_obj):
+    return {
+        "year": date_obj.year,
+        "month_num": date_obj.month,
+        "month_name_full": date_obj.strftime("%B"),
+        "month_name_short": date_obj.strftime("%B"),
+        "day": date_obj.day,
+    }
+
+
+def open_journal_entry(date_obj):
+    year = str(date_obj["year"])
+    journal_year_dir = os.path.expanduser(f"~/Documents/Journal/{year}")
+
+    if not os.path.exists(journal_year_dir):
+        user_input = input(
+            f"The directory {journal_year_dir} does not exist. Would you like to create it? (y/n): "
+        )
+        if user_input.lower() == "y":
+            os.makedirs(journal_year_dir)
+        else:
+            print("Operation cancelled by user.")
+            sys.exit(1)
+
+    os.chdir(journal_year_dir)
+
+    file_path = os.path.join(
+        journal_year_dir, f"{date_obj["month_num"]:02}.{date_obj['day']:02}.md"
+    )
+    editor = os.getenv("EDITOR", "vim")
+    subprocess.run([editor, file_path])
+
+# TODO: add logging
+# TODO: add tests
+def main():
+    args = parse_args()
+    target_date_obj = determine_date(args)
+    open_journal_entry(parse_date_obj(target_date_obj))
+
+
+if __name__ == "__main__":
+    main()
