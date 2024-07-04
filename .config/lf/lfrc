@@ -155,26 +155,33 @@ cmd bulkrename ${{
 # cmd bulkrename $vidir
 
 # Convert filename to kebab case
-cmd kebab-case ${{
+cmd kebab-case &{{
     filename=$(basename "$f")
     extension="${filename##*.}"
     name="${filename%.*}"
 
-	function sanitize() {
-		echo "$1" |
-		tr '[:upper:]' '[:lower:]' |    # Convert to lowercase chars
-		sed -E 's/[^a-z0-9\s.-]//g;' |  # Remove any characters not in charset
-		sed -E 's/\s+/-/g;' |           # Replace consecutive spaces with '-'
-		sed -E 's/^-+|-+$//g;'          # Remove leading and trailing '-'
-	}
+    function sanitize() {
+        echo "$1" | tr '[:upper:]' '[:lower:]' | # Convert to lowercase chars
+        sed -E '
+            s/[^a-z0-9[:space:].-]//g;           # Remove any characters not in charset
+            s/\s+/-/g;                           # Replace consecutive spaces with '-'
+            s/-+/-/g;                            # Collapse consecutive '-' into one '-'
+            s/^-+|-+$//g;                        # Remove leading and trailing '-'
+        '
+    }
 
     sanitized_name=$(sanitize "$name")
-    sanitized_extension=$(sanitize "$extension")
-    sanitized_filename="$sanitized_name.$sanitized_extension"
 
-	lf -remote "send push $sanitized_filename"
+    # Check if there is an extension
+    if [[ "$filename" == *.* ]]; then
+        sanitized_extension=$(sanitize "$extension")
+        sanitized_filename="$sanitized_name.$sanitized_extension"
+    else
+        sanitized_filename="$sanitized_name"
+    fi
+
+    lf -remote "send push $sanitized_filename"
 }}
-
 # Unmap default rename key
 map r
 
