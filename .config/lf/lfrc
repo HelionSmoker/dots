@@ -120,10 +120,7 @@ cmd edit-config ${{
     $EDITOR ~/.config/lf/lfrc
     lf -remote "send $id source ~/.config/lf/lfrc"
 }}
-
 map <c-c> edit-config
-
-map <a-n> newfold
 
 cmd newfold ${{
     set -f
@@ -132,6 +129,7 @@ cmd newfold ${{
     mkdir -- "$newd"
     mv -- $fx "$newd"
 }}
+map <a-n> newfold
 
 cmd select-files &{{
     get_files() {
@@ -145,14 +143,60 @@ cmd select-files &{{
 
     lf -remote "send $id :unselect; toggle $(get_files)"
 }}
-
-
-# Bind the 'a' key to the select-all command
 map a select-files
 
-map <esc> unselect
+# RENAMING
+cmd bulkrename ${{
+    vimv -- $(basename -a -- $fx)
 
-# Bindings
+    lf -remote "send $id load"
+    lf -remote "send $id unselect"
+}}
+# cmd bulkrename $vidir
+
+# Convert filename to kebab case
+cmd kebab-case ${{
+    filename=$(basename "$f")
+    extension="${filename##*.}"
+    name="${filename%.*}"
+
+	function sanitize() {
+		echo "$1" |
+		tr '[:upper:]' '[:lower:]' |    # Convert to lowercase chars
+		sed -E 's/[^a-z0-9\s.-]//g;' |  # Remove any characters not in charset
+		sed -E 's/\s+/-/g;' |           # Replace consecutive spaces with '-'
+		sed -E 's/^-+|-+$//g;'          # Remove leading and trailing '-'
+	}
+
+    sanitized_name=$(sanitize "$name")
+    sanitized_extension=$(sanitize "$extension")
+    sanitized_filename="$sanitized_name.$sanitized_extension"
+
+	lf -remote "send push $sanitized_filename"
+}}
+
+# Unmap default rename key
+map r
+
+# [R]ename from [s]cratch.
+map rs		:rename; cmd-end; cmd-delete-home
+# [R]ename [r]oot. Delete everything before extension. Place cursor at the beginning
+map rr 		:rename; cmd-delete-home
+# [R]ename [e]xtension.
+map re		:rename; cmd-right; cmd-delete-end
+# [R]ename by placing cursor before [e]xtension.
+map rx 		rename
+# [R]ename by [i]nserting at the beginning.
+map ri		:rename; cmd-home
+# [R]ename by [a]ppending to the end of the file name.
+map ra		:rename; cmd-end
+# [R]ename in [b]ulk all files in current directory using $EDITOR.
+map rb 		bulkrename
+# [R]ename using [k]ebab case.
+map rk :rename; cmd-end; cmd-delete-home; kebab-case
+
+
+# GENERAL
 map <c-f> $lf -remote "send $id select \"$(fzfopen)\""
 # map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
 map gh
@@ -166,36 +210,19 @@ map V push :!nvim<space>
 map <c-n> push :mkdir<space>
 map <c-r> reload
 map <c-s> set hidden!
-# map <enter> shell
-map <enter> open
 map x $$f
 map X !$f
 map c cut
 map u restore
 map b $setbg $f
 
+# map <enter> shell
+map <enter> open
+map <esc> unselect
+
 map W $setsid -f $TERMINAL >/dev/null 2>&1
 map Y $printf "%s" "$fx" | xclip -selection clipboard
 
-# RENAMING
-cmd bulkrename $vidir
-
-# Unmap default rename key
-map r
-# Place cursor before extension
-map R 		rename
-# [R]ename [r]oot. Delete everything before extension. Place cursor at the beginning
-map rr 		:rename; cmd-delete-home
-# [R]ename [e]xtension.
-map re		:rename; cmd-right; cmd-delete-end
-# [R]ename [a]ll. Delete full name.
-map rf		:rename; cmd-end; cmd-delete-home
-# [R]ename by [i]nserting at the beginning.
-map rb		:rename; cmd-home
-# [R]ename by [a]ppending.
-map re		:rename; cmd-end
-# [R]ename in [b]ulk all files in current directory using $EDITOR.
-map ra 		bulkrename
 
 # Source Bookmarks
 source "~/.config/lf/shortcutrc"
