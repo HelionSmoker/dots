@@ -84,6 +84,18 @@ function run_loop {
 	done
 }
 
+function vidopt {
+	ffmpeg -i "$1" -vcodec libx264 -crf 28 "$2"
+}
+
+function jpgopt {
+	ffmpeg -i "$1" -q:v 10 "$2"
+}
+
+function pngopt {
+	ffmpeg -i "$1" -compression_level 9 "$2"
+}
+
 bindkey -s '^f' 'fzfopen\n'
 
 # Set up fzf key bindings and fuzzy completion
