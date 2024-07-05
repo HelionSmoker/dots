@@ -52,3 +52,4 @@ alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,wri
 alias t-done-y='task end.after:yesterday end.before:today completed'
 alias t-done-t='task end.after:today completed'
 alias rcc='rclone --progress copy'
+alias sql='sqlite3'
