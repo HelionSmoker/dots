@@ -163,8 +163,8 @@ cmd kebab-case &{{
     function sanitize() {
         echo "$1" | tr '[:upper:]' '[:lower:]' | # Convert to lowercase chars
         sed -E '
-            s/[^a-z0-9[:space:].-]//g;           # Remove any characters not in charset
-            s/\s+/-/g;                           # Replace consecutive spaces with '-'
+            s/[^a-z0-9[:space:]._-]//g;          # Remove any characters not in charset
+            s/\s+|_/-/g;                         # Replace consecutive spaces with '-'
             s/-+/-/g;                            # Collapse consecutive '-' into one '-'
             s/^-+|-+$//g;                        # Remove leading and trailing '-'
         '
