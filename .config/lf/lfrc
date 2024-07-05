@@ -211,8 +211,8 @@ map g top
 map d trash
 map D delete
 map E extract
-map C copyto
-map M moveto
+# map C copyto
+# map M moveto
 map V push :!nvim<space>
 map <c-n> push :mkdir<space>
 map <c-r> reload
@@ -222,6 +222,8 @@ map X !$f
 map c cut
 map u restore
 map b $setbg $f
+
+map m mark-save
 
 # map <enter> shell
 map <enter> open

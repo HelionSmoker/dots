@@ -51,17 +51,17 @@ bindkey -M visual '^[[P' vi-delete
 
 # Change cursor shape for different vi modes.
 zle-keymap-select() {
-	case $KEYMAP in
-		vicmd) echo -ne '\e[1 q' ;;        # block
-		viins | main) echo -ne '\e[5 q' ;; # beam
-	esac
+    case $KEYMAP in
+        vicmd) echo -ne '\e[1 q' ;;        # block
+        viins | main) echo -ne '\e[5 q' ;; # beam
+    esac
 }
 zle -N zle-keymap-select
 
 zle-line-init() {
-	# Initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-	zle -K viins
-	echo -ne "\e[5 q"
+    # Initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    zle -K viins
+    echo -ne "\e[5 q"
 }
 zle -N zle-line-init
 
@@ -69,31 +69,58 @@ echo -ne '\e[5 q'                # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q'; } # Use beam shape cursor for each new prompt.
 
 function src-short() {
-	shortcuts > /dev/null
-	source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc
-	source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc
-	echo "Sourced shell shortcuts."
+    shortcuts > /dev/null
+    source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc
+    source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc
+    echo "Sourced shell shortcuts."
 }
 
 # Run a command on every 'Enter' (e.g. `run_loop cargo run`)
 function run_loop {
-	local cmd="$@"
-	while true; do
-		eval "$cmd"
-		read
-	done
+    local cmd="$@"
+    while true; do
+        eval "$cmd"
+        read
+    done
 }
 
 function vidopt {
-	ffmpeg -i "$1" -vcodec libx264 -crf 28 "$2"
+    ffmpeg -i "$1" -vcodec libx264 -crf 28 "$2"
 }
 
 function jpgopt {
-	ffmpeg -i "$1" -q:v 10 "$2"
+    ffmpeg -i "$1" -q:v 10 "$2"
 }
 
 function pngopt {
-	ffmpeg -i "$1" -compression_level 9 "$2"
+    ffmpeg -i "$1" -compression_level 9 "$2"
+}
+
+function pdfopt {
+    # Check if at least one argument is provided
+    if [ $# -lt 1 ]; then
+        echo "Error: Please provide a filepath as input."
+        return 1
+    fi
+
+    # Use provided second argument if present, otherwise construct compressed name
+    if [ $# -eq 2 ]; then
+        compressed_filename="$2"
+    else
+    	# Extract filename without extension (using parameter expansion)
+    	filename_no_ext="${1%.*}"
+        compressed_filename="${filename_no_ext}-compressed.${1##*.}"
+    fi
+
+    gs \
+        -sDEVICE=pdfwrite \
+        -dCompatibilityLevel=1.4 \
+        -dDownsampleColorImages=true \
+        -dColorImageResolution=150 \
+        -dNOPAUSE \
+        -dBATCH \
+        -sOutputFile="$compressed_filename" \
+        "$1"
 }
 
 bindkey -s '^f' 'fzfopen\n'
