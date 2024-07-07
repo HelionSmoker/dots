@@ -1,16 +1,23 @@
 # Use '#' to add comments.
 
-h   	"$HOME"
-d   	"$HOME/Documents"
-jr		"$JOURNAL_HOME"
-D   	"$HOME/Downloads"
-m   	"$HOME/Music"
-P	  	"$HOME/Pictures"
-V		"$HOME/Videos"
-cac 	"${XDG_CACHE_HOME:-$HOME/.cache}"
-cf  	"${XDG_CONFIG_HOME:-$HOME/.config}"
-dt  	"${XDG_DATA_HOME:-$HOME/.local/share}"
-lb  	"$HOME/.local/bin"
-src 	"$HOME/.local/src"
-dots	"$HOME/dots"
-mn  	"/mnt"
+# Home
+h       "$HOME"
+doc     "$HOME/Documents"
+dwn     "$HOME/Downloads"
+mus     "$HOME/Music"
+pic     "$HOME/Pictures"
+vid     "$HOME/Videos"
+bks     "$HOME/Books"
+uni     "$HOME/University"
+jrd     "${JOURNAL_HOME:-$HOME/Documents/Journal}"
+cac     "${XDG_CACHE_HOME:-$HOME/.cache}"
+cf      "${XDG_CONFIG_HOME:-$HOME/.config}"
+
+# Local
+lb      "$HOME/.local/bin"
+src     "$HOME/.local/src"
+flx     "$HOME/.local/src/flexicon"
+dt      "${XDG_DATA_HOME:-$HOME/.local/share}"
+
+# Misc
+mn      "/mnt"
