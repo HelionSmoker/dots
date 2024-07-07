@@ -82,7 +82,8 @@ def parse_date_obj(date_obj):
 
 def open_journal_entry(date_obj):
     year = str(date_obj["year"])
-    journal_year_dir = os.path.expanduser(f"~/Documents/Journal/{year}")
+    journal_home = os.environ["JOURNAL_HOME"]
+    journal_year_dir = os.path.expanduser(f"{journal_home}/{year}")
 
     if not os.path.exists(journal_year_dir):
         print(f":: The directory '{journal_year_dir}' does not exist.")
