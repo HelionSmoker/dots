@@ -42,7 +42,7 @@ alias mci='sudo make clean install'
 alias tse='tsc --target es6'
 alias jsonfmt='prettier --stdin-filepath f.json'
 alias adbpac='adb shell cmd package list packages'
-alias penv='source venv/bin/activate'
+alias penv='source venv/bin/activate 2> /dev/null || source .venv/bin/activate 2> /dev/null'
 
 # General-purpose
 alias gtro='trans -pager less -t ro -join-sentence'
