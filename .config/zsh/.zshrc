@@ -85,7 +85,15 @@ function run_loop {
 }
 
 function vidopt {
-    ffmpeg -i "$1" -vcodec libx264 -crf 28 "$2"
+	if [ $# -eq 2 ]; then
+        compressed_filename="$2"
+    else
+    	# Extract filename without extension (using parameter expansion)
+    	filename_no_ext="${1%.*}"
+        compressed_filename="${filename_no_ext}-compressed.${1##*.}"
+    fi
+
+    ffmpeg -i "$1" -vcodec libx264 -crf 28 "$compressed_filename"
 }
 
 function jpgopt {
