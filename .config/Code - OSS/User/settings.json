@@ -23,6 +23,7 @@
   "cSpell.enableFiletypes": ["!c"],
   "files.autoSave": "onFocusChange",
   "files.exclude": {
+    "**/.git": false,
     "**/node_modules": true
   },
   "files.trimTrailingWhitespace": true,
