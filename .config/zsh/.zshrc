@@ -84,41 +84,62 @@ function run_loop {
     done
 }
 
-function vidopt {
-	if [ $# -eq 2 ]; then
-        compressed_filename="$2"
-    else
-    	# Extract filename without extension (using parameter expansion)
-    	filename_no_ext="${1%.*}"
-        compressed_filename="${filename_no_ext}-compressed.${1##*.}"
-    fi
+function split_filename_extension() {
+    full_filename=$1
+    filename="${full_filename%.*}"
+    extension="${full_filename##*.}"
 
-    ffmpeg -i "$1" -vcodec libx264 -crf 28 "$compressed_filename"
+    echo "$filename" "$extension"
 }
 
-function jpgopt {
-    ffmpeg -i "$1" -q:v 10 "$2"
+function construct_output_path() {
+    input_path=$1
+    suffix=$2
+    set -- $(split_filename_extension "$input_path")
+    filename=$1
+    extension=$2
+    output_path="${filename}-${suffix}.${extension}"
+
+    echo "$output_path"
 }
 
-function pngopt {
-    ffmpeg -i "$1" -compression_level 9 "$2"
+function vidtoaudio() {
+    input_path=$1
+    output_path=$(construct_output_path "$input_path" "audio")
+
+    ffmpeg -i "$input_path" -q:a 0 -map a "$output_path"
 }
 
-function pdfopt {
-    # Check if at least one argument is provided
-    if [ $# -lt 1 ]; then
-        echo "Error: Please provide a filepath as input."
-        return 1
-    fi
+function vidopt() {
+    input_path=$1
+    output_path=$(construct_output_path "$input_path" "compressed")
 
-    # Use provided second argument if present, otherwise construct compressed name
-    if [ $# -eq 2 ]; then
-        compressed_filename="$2"
-    else
-    	# Extract filename without extension (using parameter expansion)
-    	filename_no_ext="${1%.*}"
-        compressed_filename="${filename_no_ext}-compressed.${1##*.}"
-    fi
+    ffmpeg -i "$input_path" -vcodec libx264 -crf 28 "$output_path"
+}
+
+function imageopt() {
+    input_path=$1
+    set -- $(split_filename_extension "$input_path")
+    extension=$2
+    output_path=$(construct_output_path "$input_path" "compressed")
+
+    case "$extension" in
+        jpg|jpeg)
+            ffmpeg -i "$input_path" -q:v 10 "$output_path"
+            ;;
+        png)
+            ffmpeg -i "$input_path" -compression_level 9 "$output_path"
+            ;;
+        *)
+            echo "Unsupported image format: $extension"
+            return 1
+            ;;
+    esac
+}
+
+function pdfopt() {
+    input_path=$1
+    output_path=$(construct_output_path "$input_path" "compressed")
 
     gs \
         -sDEVICE=pdfwrite \
@@ -127,8 +148,8 @@ function pdfopt {
         -dColorImageResolution=150 \
         -dNOPAUSE \
         -dBATCH \
-        -sOutputFile="$compressed_filename" \
-        "$1"
+        -sOutputFile="$output_path" \
+        "$input_path"
 }
 
 bindkey -s '^f' 'fzfopen\n'
