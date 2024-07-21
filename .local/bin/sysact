@@ -47,7 +47,7 @@ display off 📺
 hibernate 🐻
 "
 
-choice="$(printf "%s" "$choices" | dmenu -i -l -1 -p "Action")"
+choice="$(printf "%s" "$choices" | dmenu -i -R -l -1 -p "Action")"
 
 case "$choice" in
 	'sleep 😴') pause_dunst "slock $ctl suspend -i" ;;
