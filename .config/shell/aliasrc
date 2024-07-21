@@ -6,7 +6,6 @@ for command in mount umount pacman updatedb su shutdown reboot ; do
 done; unset command
 
 # Abbreviations
-
 alias e='$EDITOR' ## (SC2139) Expand when used, not when defined.
 alias g='git'
 alias o='xdg-open'
@@ -18,8 +17,9 @@ alias ka='killall'
 alias lf='lfub'
 alias py='python'
 alias tp='trash-put'
+alias sql='sqlite3'
 
-# Verbosity and commonly-used settings.
+# Verbosity and common settings.
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias rm='rm -vI'
@@ -43,6 +43,18 @@ alias tse='tsc --target es6'
 alias jsonfmt='prettier --stdin-filepath f.json'
 alias adbpac='adb shell cmd package list packages'
 alias penv='source venv/bin/activate 2> /dev/null || source .venv/bin/activate 2> /dev/null'
+
+# Rclone
+alias rc='rclone --progress --exclude "No_Backup/**" copy'
+alias rcd='rclone --progress --dry-run --exclude "No_Backup/**" copy'
+alias rs='rclone --progress --exclude "No_Backup/**" sync'
+alias rsd='rclone --progress --dry-run --exclude "No_Backup/**" sync'
+
+# Taskwarrior
+# TODO: use a similar approach to 'open_journal_entry' instead of
+# only 'yesterday' and 'today'.
+alias t-done-y='task end.after:yesterday end.before:today completed'
+alias t-done-t='task end.after:today completed'
 
 # General-purpose
 alias gtro='trans -pager less -t ro -join-sentence'
