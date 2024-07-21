@@ -37,5 +37,6 @@
   "glassit.alpha": 235,
   "[python]": {
     "editor.defaultFormatter": "mikoz.black-py"
-  }
+  },
+  "window.zoomLevel": 1,
 }
