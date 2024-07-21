@@ -4,6 +4,6 @@ Xft.dpi: 110
 *.alpha: 0.8
 
 !! Set a default font and font size as below:
-*.font: monospace:size=12
+*.font: monospace:size=14
 
 #include "themes/base16-seti-256.Xresources"
