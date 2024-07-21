@@ -9,7 +9,7 @@
 #
 # If there is already a running instance, user will be prompted to end it.
 
-videos_dir="$HOME/Videos"
+videos_dir="$HOME/Videos/Screen_Recordings"
 music_dir="$HOME/Music"
 date_fmt='%y-%m-%d_%H-%M-%S'
 
