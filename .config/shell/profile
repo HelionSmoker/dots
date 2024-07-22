@@ -3,8 +3,14 @@
 
 # Profile file, runs on login. Environmental variables are set here.
 
-# Add all directories in `~/.local/bin` to $PATH
-export PATH="$PATH:$(find ~/.local/bin -type d | paste -sd ':' -)"
+# Add Homebrew and ~/.local/bin to PATH
+PATH="/usr/local/bin:/opt/homebrew/bin:$HOME/.local/bin:$PATH"
+
+# Add all subdirectories of ~/.local/bin to PATH
+PATH=$(find "$HOME/.local/bin" -type d | paste -sd ':' -):$PATH
+
+# Export PATH
+export PATH
 
 unsetopt PROMPT_SP 2>/dev/null
 
@@ -12,7 +18,7 @@ unsetopt PROMPT_SP 2>/dev/null
 export EDITOR="nvim"
 export TERMINAL="st"
 export TERMINAL_PROG="st"
-export BROWSER="librewolf"
+export BROWSER="firefox"
 
 # Change the default crypto/weather monitor sites.
 # export CRYPTOURL="rate.sx"
