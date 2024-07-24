@@ -40,7 +40,7 @@ choices="\
 sleep 😴
 lock 🔒
 power off 🔌
-reboot 🔃
+reboot 🔄
 exit $WM 🚪
 update $WM 
 display off 📺
