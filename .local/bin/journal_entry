@@ -80,26 +80,44 @@ def parse_date_obj(date_obj):
     }
 
 
-def open_journal_entry(date_obj):
-    year = str(date_obj["year"])
-    journal_home = os.environ["JOURNAL_HOME"]
-    journal_year_dir = os.path.expanduser(f"{journal_home}/{year}")
+def prompt_user(prompt, positive_resp=["y"], negative_resp=["n"], default="n"):
+    possible_resp = positive_resp + negative_resp
+    if default not in possible_resp:
+        return False
 
-    if not os.path.exists(journal_year_dir):
-        print(f":: The directory '{journal_year_dir}' does not exist.")
-        user_input = input("> Would you like to create it? (y/N): ").lower().strip()
+    default_index = possible_resp.index(default)
+    possible_resp[default_index] = possible_resp[default_index].upper()
+    user_resp = input(f"> {prompt} ({'/'.join(possible_resp)}): ").strip().lower()
 
-        if user_input.lower() == "y":
-            os.makedirs(journal_year_dir)
+    return user_resp in positive_resp
+
+
+def ensure_directory(path):
+    if not os.path.exists(path):
+        print(f":: The directory '{path}' does not exist.")
+        user_resp = prompt_user("Would you like to create the directory?")
+        if user_resp:
+            os.makedirs(path)
         else:
             print(":: Operation cancelled by user.")
             sys.exit(1)
 
-    os.chdir(journal_year_dir)
 
-    file_path = os.path.join(
-        journal_year_dir, f"{date_obj['month_num']:02}.{date_obj['day']:02}.md"
-    )
+def open_journal_entry(date_obj):
+    year = str(date_obj["year"])
+    month_num = f"{date_obj['month_num']:02}"
+    journal_home_dir = os.environ["JOURNAL_HOME"]
+
+    if not journal_home_dir:
+        raise EnvironmentError("JOURNAL_HOME environment variable is not set.")
+
+    journal_year_dir = os.path.join(journal_home_dir, year)
+    journal_month_dir = os.path.join(journal_year_dir, month_num)
+
+    ensure_directory(journal_year_dir)
+    ensure_directory(journal_month_dir)
+
+    file_path = os.path.join(journal_month_dir, f"{month_num}.{date_obj['day']:02}.md")
     editor = os.getenv("EDITOR", "vim")
     subprocess.run([editor, file_path])
 
