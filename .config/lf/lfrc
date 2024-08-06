@@ -12,9 +12,24 @@
 #    in your shellrc (`alias lf="lfub") or if set to a binding, should be
 #    called directly instead of normal lf.
 
-# Basic vars
+# Interpreter for shell commands
+set shell sh
+
+# Otions for shell commands
+# '-e' : exit on error
+# '-u' : throw error for unset variables
+# '-f' : disable filepath expansion. Useful useful when $f, $fs, and
+#        $fx variables contain names with '*' or '?' characters.
+#
+# Docs: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
 set shellopts '-eu'
+
+# Internal field separator (IFS) for shell commands
+# Useful to automatically split file names in $fs and $fx properly, since default
+# file separator used in these variables (i.e. 'filesep' option) is newline.
+# You need to consider the values of these options and create your commands accordingly.
 set ifs "\n"
+
 set scrolloff 10
 set icons
 set period 1
@@ -164,7 +179,7 @@ cmd kebab-case &{{
         echo "$1" | tr '[:upper:]' '[:lower:]' | # Convert to lowercase chars
         sed -E '
             s/[^a-z0-9[:space:]._-]//g;          # Remove any characters not in charset
-            s/\s+|_/-/g;                         # Replace consecutive spaces with '-'
+            s/\s+/-/g;                         # Replace consecutive spaces with '-'
             s/-+/-/g;                            # Collapse consecutive '-' into one '-'
             s/^-+|-+$//g;                        # Remove leading and trailing '-'
         '
