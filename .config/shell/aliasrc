@@ -27,8 +27,6 @@ alias bc='bc -ql'
 alias ls='ls -A -hN --color=auto --group-directories-first'
 alias rsync='rsync -vrPlu'
 alias mkd='mkdir -pv'
-alias yt='yt-dlp --embed-metadata -i'
-alias yta='yt -x -f bestaudio/best'
 alias ffmpeg='ffmpeg -hide_banner'
 alias shfmt='shfmt -w -i 4 -bn -ci -sr'
 
@@ -47,9 +45,7 @@ alias pfr='pip freeze > requirements.txt'
 
 # Rclone
 alias rc='rclone --progress --exclude "No_Backup/**" copy'
-alias rcd='rclone --progress --dry-run --exclude "No_Backup/**" copy'
 alias rs='rclone --progress --exclude "No_Backup/**" sync'
-alias rsd='rclone --progress --dry-run --exclude "No_Backup/**" sync'
 
 # Taskwarrior
 # TODO: use a similar approach to 'open_journal_entry' instead of
@@ -57,9 +53,13 @@ alias rsd='rclone --progress --dry-run --exclude "No_Backup/**" sync'
 alias t-done-y='task end.after:yesterday end.before:today completed'
 alias t-done-t='task end.after:today completed'
 
+# YouTube
+alias ytt='yt --skip-download --write-thumbnail'
+alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
+alias yt='yt-dlp --embed-metadata -i'
+alias yta='yt -x -f bestaudio/best'
+
 # General-purpose
 alias gtro='trans -pager less -t ro -join-sentence'
 alias gten='trans -pager less -t en -join-sentence'
-alias ytt='yt --skip-download --write-thumbnail'
-alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
 alias je='journal_entry'
