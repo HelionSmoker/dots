@@ -45,7 +45,9 @@ alias pfr='pip freeze > requirements.txt'
 
 # Rclone
 alias rc='rclone --progress --exclude "No_Backup/**" copy'
+alias rcd='rclone --dry-run --progress --exclude "No_Backup/**" copy'
 alias rs='rclone --progress --exclude "No_Backup/**" sync'
+alias rsd='rclone --dry-run --progress --exclude "No_Backup/**" sync'
 
 # Taskwarrior
 # TODO: use a similar approach to 'open_journal_entry' instead of
@@ -57,7 +59,7 @@ alias t-done-t='task end.after:today completed'
 alias ytt='yt --skip-download --write-thumbnail'
 alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
 alias yt='yt-dlp --embed-metadata -i'
-alias yta='yt -x -f bestaudio/best'
+alias yta='yt --extract-audio --format bestaudio/best --quiet'
 
 # General-purpose
 alias gtro='trans -pager less -t ro -join-sentence'
