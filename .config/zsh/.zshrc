@@ -152,6 +152,10 @@ function pdfopt() {
         "$input_path"
 }
 
+function httd() {
+	httrack "$1" --path "$2" --keep-alive
+}
+
 bindkey -s '^f' 'fzfopen\n'
 
 # Set up fzf key bindings and fuzzy completion
