@@ -59,7 +59,8 @@ alias t-done-t='task end.after:today completed'
 alias ytt='yt --skip-download --write-thumbnail'
 alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
 alias yt='yt-dlp --embed-metadata -i'
-alias yta='yt --extract-audio --format bestaudio/best --quiet'
+alias yta='yt --extract-audio --format bestaudio/best --no-playlist'
+alias ytap='yt --extract-audio --format bestaudio/best --yes-playlist'
 
 # General-purpose
 alias gtro='trans -pager less -t ro -join-sentence'
