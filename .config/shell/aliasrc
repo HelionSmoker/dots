@@ -16,7 +16,7 @@ alias z='zathura'
 alias ka='killall'
 alias lf='lfub'
 alias py='python'
-alias tp='trash-put'
+alias tp='trash-put --'
 alias sql='sqlite3'
 
 # Verbosity and common settings.
