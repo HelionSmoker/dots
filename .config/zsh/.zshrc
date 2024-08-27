@@ -111,10 +111,22 @@ function vidtoaudio() {
 }
 
 function vidopt() {
-    input_path=$1
-    output_path=$(construct_output_path "$input_path" "compressed")
+    input_path="$1"
+    new_filename="$2"
 
-    ffmpeg -i "$input_path" -vcodec libx264 -crf 28 "$output_path"
+    # Extract the root name and extension from the input path
+    filename=$(basename -- "$input_path")
+    root_name="${filename%.*}"
+    extension="${filename##*.}"
+
+    # Determine the output name
+    if [ -z "$new_filename" ]; then
+        output_name="${root_name}_compressed.${extension}"
+    else
+        output_name="$new_filename"
+    fi
+
+    ffmpeg -i "$input_path" -vcodec libx264 -crf 28 "$output_name"
 }
 
 function imageopt() {
