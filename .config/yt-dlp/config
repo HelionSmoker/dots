@@ -1,0 +1,2 @@
+# Usage 'yt-dlp --set-meta "artist" "Example Value" --print meta_artist'
+--alias set-meta "--parse-metadata .{1}:.'%(meta_{0})s'"
