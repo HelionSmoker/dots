@@ -26,6 +26,7 @@ alias mv='mv -iv'
 alias rm='rm -vI'
 alias bc='bc -ql'
 alias ls='ls -A -hN --color=auto --group-directories-first'
+alias rg='rg -i'
 alias rsync='rsync -vrPlu'
 alias mkd='mkdir -pv'
 alias ffmpeg='ffmpeg -hide_banner'
@@ -47,8 +48,8 @@ alias pfr='pip freeze > requirements.txt'
 # Rclone
 alias rc='rclone --progress --exclude "No_Backup/**" copy'
 alias rcd='rclone --dry-run --progress --exclude "No_Backup/**" copy'
-alias rs='rclone --progress --exclude "No_Backup/**" sync'
-alias rsd='rclone --dry-run --progress --exclude "No_Backup/**" sync'
+alias rs='rclone --track-renames --progress --exclude "No_Backup/**" sync'
+alias rsd='rclone --track-renames --dry-run --progress --exclude "No_Backup/**" sync'
 
 # Taskwarrior
 # TODO: use a similar approach to 'open_journal_entry' instead of
