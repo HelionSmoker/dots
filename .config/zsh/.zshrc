@@ -129,7 +129,7 @@ function vidopt() {
     ffmpeg -i "$input_path" -vcodec libx264 -crf 28 "$output_name"
 }
 
-function imageopt() {
+function imgopt() {
     input_path=$1
     set -- $(split_filename_extension "$input_path")
     extension=$2
@@ -167,6 +167,24 @@ function pdfopt() {
 function httd() {
 	httrack "$1" --path "$2" --keep-alive
 }
+
+function trim_media() {
+    if [ $# -ne 3 ]; then
+        echo "Usage: trim_media input_file start_time duration"
+        echo "Example: trim_media input.mp4 00:01:30 00:00:30"
+        return 1
+    fi
+
+    local input_file=$1
+    local start_time=$2
+    local duration=$3
+    local output_file="trimmed_${input_file%.*}.${input_file##*.}"
+
+    ffmpeg -i "$input_file" -ss "$start_time" -t "$duration" -c copy "$output_file"
+
+    echo "Trimmed file saved as $output_file"
+}
+
 
 bindkey -s '^f' 'fzfopen\n'
 
