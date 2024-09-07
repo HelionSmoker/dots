@@ -162,6 +162,38 @@ cmd select-files &{{
 }}
 map a select-files
 
+# GENERAL
+
+# Unmap arrows keys
+# map <up>
+# map <down>
+
+map <c-f> $lf -remote "send $id select \"$(fzfopen)\""
+# map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
+map gh
+map g top
+map E extract
+# map C copyto
+# map M moveto
+map V push :!nvim<space>
+map <c-n> push :mkdir<space>
+map <c-r> reload
+map <c-s> set hidden!
+map x $$f
+map X !$f
+map c cut
+map u restore
+map b $setbg $f
+
+map m mark-save
+
+# map <enter> shell
+map <enter> open
+map <esc> unselect
+
+map W $setsid -f $TERMINAL >/dev/null 2>&1
+map Y $printf "%s" "$fx" | xclip -selection clipboard
+
 # RENAMING
 cmd bulkrename ${{
     vimv -- $(basename -a -- $fx)
@@ -199,6 +231,7 @@ cmd kebab-case &{{
 
     lf -remote "send push $sanitized_filename"
 }}
+
 # Unmap default rename key
 map r
 
@@ -219,41 +252,24 @@ map rb 		bulkrename
 # [R]ename using [k]ebab case.
 map rk :rename; cmd-end; cmd-delete-home; kebab-case
 
+# DELETING
 
-# GENERAL
-
-# Unmap arrows keys
-# map <up>
-# map <down>
-
-map <c-f> $lf -remote "send $id select \"$(fzfopen)\""
-# map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
-map gh
-map g top
 map d trash
 map D delete
-map E extract
-# map C copyto
-# map M moveto
-map V push :!nvim<space>
-map <c-n> push :mkdir<space>
-map <c-r> reload
-map <c-s> set hidden!
-map x $$f
-map X !$f
-map c cut
-map u restore
-map b $setbg $f
 
-map m mark-save
+# LABS
 
-# map <enter> shell
-map <enter> open
-map <esc> unselect
+cmd delete-symlink-target ${{
+    target=$(readlink -f $f)
+    if [ -n "$target" ]; then
+        rm "$target"
+        echo "Deleted target: $target"
+    else
+        echo "Not a symlink"
+    fi
+}}
 
-map W $setsid -f $TERMINAL >/dev/null 2>&1
-map Y $printf "%s" "$fx" | xclip -selection clipboard
-
+map <a-d> delete-symlink-target
 
 # Source Bookmarks
 source "~/.config/lf/shortcutrc"
