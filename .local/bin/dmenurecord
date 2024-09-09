@@ -202,8 +202,12 @@ case "$1" in
 	video) video ;;
 	*selected) videoselected ;;
 	kill) killrecording ;;
-	*) ([ -f /tmp/recordingpid ] &&
+	*)
+		# Sleep to avoid the notification from appearing in the video
+		([ -f /tmp/recordingpid ] &&
 		asktoend &&
+		sleep 0.3 &&
 		notify-send "Recording saved" "Recording was saved at '$(sed "s|$HOME|~|g" /tmp/recordingpath)'." &&
 		exit) || askrecording ;;
+
 esac
