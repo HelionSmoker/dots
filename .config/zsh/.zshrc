@@ -185,6 +185,9 @@ function trim_media() {
     echo "Trimmed file saved as $output_file"
 }
 
+function pdftopng() {
+	magick -density 300 "$1" -quality 100 -alpha remove "$2"
+}
 
 bindkey -s '^f' 'fzfopen\n'
 
