@@ -4,7 +4,9 @@
 # If you use startx/xinit like a Chad, this file will also be sourced.
 
 # Use a higher DPI for larger screens
-xrandr --output DisplayPort-2 --primary --mode 2560x1440 --rotate normal
+xrandr \
+	--output DisplayPort-2 --primary --mode 2560x1440 --pos 1920x0 --rotate normal \
+	--output HDMI-A-0 --mode 1920x1080 --pos 0x448 --rotate normal
 setbg  &
 dwmblocks &
 # Uncomment to use Xresources colors/settings on startup
