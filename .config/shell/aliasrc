@@ -60,7 +60,7 @@ alias t-done-t='task end.after:today completed'
 # YouTube
 alias ytt='yt --skip-download --write-thumbnail'
 alias yts='mpv --slang=en --fs --ytdl-raw-options=ignore-config=,sub-lang=en,write-auto-sub='
-alias yt='yt-dlp --embed-metadata -i'
+alias yt='yt-dlp --embed-metadata -i --no-playlist'
 alias yta='yt --extract-audio --format bestaudio/best --no-playlist'
 alias ytap='yt --extract-audio --format bestaudio/best --yes-playlist -o "%(playlist_index)02d - %(title)s [%(id)s].%(ext)s"'
 
