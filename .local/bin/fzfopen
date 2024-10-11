@@ -16,4 +16,4 @@ esac')"
 
 [ -z "$target_path" ] && exit 1
 
-lf "$target_path"
+lfub "$target_path"
