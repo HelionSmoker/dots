@@ -40,4 +40,7 @@
     "editor.defaultFormatter": "mikoz.black-py"
   },
   "window.zoomLevel": 1,
+  "[xml]": {
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
+  },
 }
