@@ -67,13 +67,13 @@
     #   right-center
     #
     #  It can then be moved with `offset`.
-    origin = "top-right"
+    origin = "bottom-right"
 
     # Offset in pixels from the corner of the screen specified by `origin`
     # Format: horizontalxvertical
     #
     # A negative value will lead to the notification being off screen.
-    offset = 20x40
+    offset = 20x20
 
     # Specifies a scale factor for dimensions to adapt notifications to HiDPI screens on X11.
     # Default: 0
