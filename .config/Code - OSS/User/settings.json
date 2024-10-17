@@ -13,7 +13,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
-  "editor.insertSpaces": false,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
   "files.insertFinalNewline": true,
@@ -43,4 +42,5 @@
   "[xml]": {
     "editor.defaultFormatter": "DotJoshJohnson.xml"
   },
+  "editor.detectIndentation": false,
 }
