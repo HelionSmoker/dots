@@ -1,3 +1,7 @@
 [submodule ".config/mpv/script_modules/mpvSockets"]
 	path = .config/mpv/script_modules/mpvSockets
 	url = https://github.com/wis/mpvSockets.git
+
+[submodule ".config/x11/themes"]
+    path = .config/x11/themes
+    url = https://github.com/janoamaral/Xresources-themes.git
