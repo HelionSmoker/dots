@@ -10,7 +10,7 @@ xrandr \
 setbg  &
 dwmblocks &
 # Uncomment to use Xresources colors/settings on startup
-# xrdb "${XDG_CONFIG_HOME:-$HOME/.config}"/x11/xresources & xrdbpid=$!
+xrdb "${XDG_CONFIG_HOME:-$HOME/.config}"/x11/xresources & xrdbpid=$!
 
 autostart='xcompmgr dunst pipewire remapd'
 
