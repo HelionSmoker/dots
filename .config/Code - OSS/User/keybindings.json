@@ -1,7 +1,11 @@
 // Place your key bindings in this file to override the defaultsauto[]
 [
-    {
-        "key": "alt+v",
-        "command": "vscode-neovim.stop"
-    }
+  {
+    "key": "alt+v",
+    "command": "vscode-neovim.restart"
+  },
+  {
+    "key": "alt+shift+v",
+    "command": "vscode-neovim.stop"
+  }
 ]
